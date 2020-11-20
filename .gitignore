@@ -1,3 +1,7 @@
+# Jupyter Lab #
+###############
+.ipynb_checkpoints
+
 # Data files #
 ##############
 *.csv
