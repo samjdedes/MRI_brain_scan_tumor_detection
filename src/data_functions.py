@@ -4,101 +4,103 @@ import cv2
 from sklearn.model_selection import train_test_split
 
 
-def get_img_paths(base_dir, ignore_filetypes=['.txt']):
+def get_img_paths(base_dir):
     """
-    Inputs:
-        base_dir (string/ os.path type) relative path to the directory with folders containing images
-        *kwargs
-        ignore_filetypes (list of strings) filetypes to exclude from output
-        type_foldes (dictionary) folders that identify different filetypes and add identifiers to add to output
-    Returns:
-        paths (list of tuples) relative paths to files with identifiers
-    """
-    normal_paths = []
-    pneumonia_paths = []
+    Retrieves paths to all files given a base directory.
+    
+    Parameters:
+        base_dir (string): relative path to the directory with folders containing images
 
+    Returns:
+        paths (list of tuples): relative paths (string) to files with identifiers (int)
+    """
+    # instantiate empty lists
+    absent_paths = []
+    present_paths = []
+
+    # loop through each dir and file in root (base_dir) given
     for root, dirs, files in os.walk(base_dir):
-        # remove undesired files
-        if ignore_filetypes:
-            # check each file
-            for file in files:
-                for file_type in ignore_filetypes:
-                    if file_type in file:
-                        files.remove(file)
+                   
+        # if files present, save path and append to list with classification/identifier
         if files:
             for file in files:
                 full_path = os.path.join(root, file)
+                
+                if 'NO' in full_path:
+                    absent_paths.append((full_path, 0))
 
-                if 'NORMAL' in full_path:
-                    normal_paths.append((full_path, 0))
+                elif 'YES' in full_path:
+                    present_paths.append((full_path, 1))
 
-                elif 'PNEUMONIA' in full_path:
-                    pneumonia_paths.append((full_path, 1))
-
-    #         if type_folders:
-    #             for key, value in type_folders.items():
-    #                 if key in root:
-
-    #         print('root: ', root)
-    #         print('files: ', files[:5], len(files))
-    #         print('paths: ', paths)
-    normal_paths.extend(pneumonia_paths)
-    return normal_paths
+    return absent_paths, present_paths
 
 
-def custom_tts(data, train_val_test_percents=(0.8, 0.025, 0.175), random_state=2021):
+def get_data(input_data, img_size=150):
     """
-    This function takes a tuple of data and returns a tuple of train, test, and validation data
-    Input:
-        data (list/ array like) each entry contians a file path in position [0] and classification in position [1]
-        train_val_test_percents (triple) triple containing decimal representations of split percentages used in train test split
-        *kwargs
+    Retrieves image data with classification/type, and path
+
+    Parameters:
+        input_data (list of tuples): paths leading to image data to be loaded and classification/type
 
     Returns:
-        x_train
-        x_val
-        x_test
-
-    """
-    # Extract percentages used in split from triple
-    train_pct = train_val_test_percents[0]
-    test_pct = 1 - train_pct
-    val_pct = train_val_test_percents[0] / test_pct
-    paths = [d[0] for d in data]
-    types = [t[1] for t in data]
-    x_train, x_test, y_train, y_test = train_test_split(paths, types, train_size=train_pct, random_state=random_state)
-
-    x_test, x_val, y_test, y_val = train_test_split(x_test, y_test, test_size=train_pct, random_state=random_state)
-
-    return x_train, x_val, x_test, y_train, y_val, y_test
-
-
-def get_data(x, y, img_size=150):
-    """
-    This function takes an image type and classification with matching index and returns  image data with classification
-
-    Input:
-        x (list of path like entries) paths leading to image data to be loaded
-        y (list of classification) list of classifications matching index of x data
-
-    Returns:
-        data (np.array) image data with classification
+        data (np.array of tuples): image data (np.array) with classification/type (int), and path (string)
     """
 
     data = []
 
-    for i in range(len(x)):
-        path = x[i]
-        class_num = y[i]
+    for i in range(len(input_data)):
+        path = input_data[i][0]
+        class_num = input_data[i][1]
 
         #         for img in os.listdir(path):
 
         try:
             img_arr = cv2.imread(path)
             resized_arr = cv2.resize(img_arr, (img_size, img_size))  # Reshaping images to preferred size
-            data.append([resized_arr, class_num])
+            data.append([resized_arr, class_num, path])
 
         except Exception as e:
-            print(e)
+            print(f'{e} on path {path}')
 
     return np.array(data)
+
+def remove_duplicates(data):
+    '''
+    Removes duplicate entries from list of data.
+    
+    Parameters:
+        data (list of tuples): contains image data (np.array), classification (int) to compare to others within input data
+        
+    Returns:
+        unique_list (np.array): array of unique image data (np.array) with classifcations (int)
+        duplicate_list (np.array): array of duplicate image data (np.array) removed from input data
+    
+    '''
+
+    unique_list = []
+    duplicate_list = []
+    # loop through original images
+    for image in data:
+        img = image[0]
+        
+        # informs function to append image
+        is_unique = True
+        
+        # loop through new list
+        for unique_image in unique_list:
+            unique_img = unique_image[0]
+            
+            # check existing entries to new entry
+            if (img == unique_img).all():
+                is_unique = False
+                print(f'duplicate found:{img[0][25:26]} and {unique_img[0][25:26]}')
+                break
+                
+        # add to unique list if unique
+        if is_unique:
+            unique_list.append(image)
+        
+        else:
+            duplicate_list.append(image)
+            
+    return np.array(unique_list), np.array(duplicate_list)
