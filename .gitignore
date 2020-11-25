@@ -2,6 +2,12 @@
 #########
 src/model_utils.py
 notebooks/exploratory/figures/fun_with_matplotlib.png
+notebooks/exploratory/figures/test.jpg
+README.md
+
+# Folders #
+###########
+notebooks/exploratory/saved_models
 
 # Jupyter Lab #
 ###############

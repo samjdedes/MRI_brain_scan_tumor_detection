@@ -1,5 +1,7 @@
 # Tumor Detection: Analyzing MRI Brain Scans
 
+This is the project repository for a machine learning model used to identify the presence of tumors in MRI brain scans with Convolutional Neural Networks.
+
 ## TABLE OF CONTENTS
 
 ### Notebooks
@@ -37,9 +39,12 @@ Project development completed with Cross-Industry Standard Process for Data Mini
 
 According to the [National Institute of Health](https://www.ninds.nih.gov/Disorders/Patient-Caregiver-Education/Hope-Through-Research/Brain-and-Spinal-Tumors-Hope-Through#definition), "[brain tumors] occur when something goes wrong with genes that regulate cell growth, allowing cells to grow and divide out of control... Depending on its type, a growing tumor may not cause any symptoms or can kill or displace healthy cells or disrupt their function" (Brain and Spinal Cord Tumors, 2020).
 
-Brain tumors are diagnosed fist by a neurological exam, and then through imaging methods including CT and MRI scans. If necessary, a biopsy is done to confirm a diagnosis (Brain and Spinal Cord Tumors, 2020). A biopsy is a surgical procedure where a small sample of tissue is extracted. Depending on the location of the suspected tumor, this can be dangerous to the patient, or impossible to perform if in a particularly sensitive area.
+Brain tumors are diagnosed fist by a neurological exam, and then through imaging methods including MRI scans. Currently, images are analyzed my MRI technicians before being sent to the doctor for a final analysis. If necessary, a biopsy is done to confirm a diagnosis (Brain and Spinal Cord Tumors, 2020). A biopsy is a surgical procedure where a small sample of tissue is extracted. Depending on the location of the suspected tumor, this can be dangerous to the patient, or impossible to perform if in a particularly sensitive area.
 
-The stakeholders here are the doctors and MRI technicians treating pediatric with suspected brain tumors.
+With advances in image classification techniques, preliminary analyses can be aided by computers through algorithms like those created in this project. Furthermore, this can reduce the need for potentially dangerous biopsies for diagnosis can be reduced, allowing doctors and patients to focus on the next step, treatment.
+
+The stakeholders here are the doctors and MRI technicians treating patients with suspected brain tumors.
+
 
 
 ## Data Understanding
@@ -50,10 +55,9 @@ In this project, a scan with a tumor was considered Class 0, and a scan with a t
 
 
 ## Data Preparation
-After retrieving the data from the dataset it is important to classify images according to their labels. Because we are running a CNN, a supervised learning machine method, labels need to be attributed to images to help in the process of reducing loss, and increasing recall and accuracy. After this is done, each image is converted into an 1-D array, and divided by 255. The values of the grayscale pixels range from 0-255. Dividing each pixel by 255 normalizes our grayscale to values between 0-1, and also helps our CNN algorithm converge faster.
 
-![class imbalance](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/image_classification.png)
-Next we needed to address our class imbalance. The first was to use a keras preprocessing function called ImageDataGenerator. ImageDataGenerator takes a batch of images used for training, applies a series of random transformation to each image in the batch (including random rotation, resizing and shearing), and replaces the original batch with the new randomly transformed batch. This effectively allows us to expand the training dataset in order to improve the performance and ability of the model to generalize.
+After sourcing data, it was loaded, duplicates removed, and resized to work with the format of Convolutional Neural Network.
+To create a more robust model, ImageDataGenerator was used to create altered images used in tandem with original images.
 
 
 ## Modeling
@@ -70,22 +74,13 @@ A Convolution Neural Network (CNN) is built on three broad strategies:
 
   3)Fully connected layer to equip the network with classification capabilities
 
+The performance of the model is evaluated using Recall and Accuracy metrics calculates how many of the Actual Positives our model capture through labeling it as Positive (True Positive). Recall calculates how many of the Actual Positives our model capture through labeling it as Positive (True Positive), in other words recall means the percentage of a pneumonia correctly identified. More accurate model lead to make better decision. The cost of errors can be huge but optimizing model accuracy mitigates that cost.
 
-![CNN Visual](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/cnn.jpg)
-
-
-![recall/accuracy](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/Model1_Epoch12_Batch32%20%20model_accuracy_recall.png)
-
-
-![lime visuals](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/Sample_True_Predictions_5.png)
-
-
-## Evaluation
-
+![Confusion Matrix](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/plot_confusion_matrix_final.png)
 
 ## Potential Next Steps
 
-Our next steps would be to classify images by location of tumor, and malignant or benign. Furthermore, there is a potential for early detection of tumors if labelled scans of undiagnosed brain tumors can be incorporated into the model.
+The next steps will be to classify images by location of tumor, and malignant or benign. Furthermore, there is a potential for early detection of tumors if labelled scans of undiagnosed brain tumors can be incorporated into the model.
 
 
 # Appendix
@@ -93,6 +88,7 @@ Our next steps would be to classify images by location of tumor, and malignant o
 
 Below visualizes the structure of this repository.
 
+```
 MRI_brain_scan_tumor_detection
 (Project Folder)
     |
@@ -129,7 +125,7 @@ MRI_brain_scan_tumor_detection
           ├ __init__.py (Python file that allows python files in this directory to be treated as python modules)
           |
           └ data_functions.py (Python file containing all custom data functions called in index.ipynb)
-
+```
 
 ## References
 
