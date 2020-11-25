@@ -1,14 +1,6 @@
-# Tumor Detection in MRI Brain Scans
-
-The goal of this project is to develop and train a Convolutional Neural Network (CNN) machine learning model to identify the presence of tumors in MRI brain scans.
-
-![PLacehlder](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/reports/figures/.png)
-                               (Images from _ dataset)
-
+# Tumor Detection: Analyzing MRI Brain Scans
 
 ## TABLE OF CONTENTS
-
-Our home repository contains the project environment and information about our project.
 
 ### Notebooks
 
@@ -16,10 +8,12 @@ Our home repository contains the project environment and information about our p
 
 [Final Report Notebook](notebooks/report)
 
+
 ### Reports
 [Executive Summary](reports/presentation)
 
 [Figures](reports/figures)
+
 
 ### Data
 
@@ -34,34 +28,32 @@ Our home repository contains the project environment and information about our p
 
 [Read Me](README.md)
 
-## Project Goal and Background
 
-We used the Cross-Industry Standard Process for Data Mining(CRISP-DM) approach to this project.
+# Project Goal and Background
+Project development completed with Cross-Industry Standard Process for Data Mining (CRISP-DM) methodology. The goal is to develop and train a Convolutional Neural Network (CNN) machine learning model to identify the presence of tumors in MRI brain scans.
+
 
 ## Business Understanding 
 
-According to [Mayo Clinic](https://www.mayoclinic.org/diseases-conditions/pneumonia/symptoms-causes/syc-20354204), "Pneumonia is an infection that inflames the air sacs in one or both lungs. The air sacs may fill with fluid or pus (purulent material), causing cough with phlegm or pus, fever, chills, and difficulty breathing. A variety of organisms, including bacteria, viruses and fungi, can cause pneumonia." Particularly for children, pneumonia can be very dangerous.
+According to the [National Institute of Health](https://www.ninds.nih.gov/Disorders/Patient-Caregiver-Education/Hope-Through-Research/Brain-and-Spinal-Tumors-Hope-Through#definition), "[brain tumors] occur when something goes wrong with genes that regulate cell growth, allowing cells to grow and divide out of control... Depending on its type, a growing tumor may not cause any symptoms or can kill or displace healthy cells or disrupt their function" (Brain and Spinal Cord Tumors, 2020).
 
-"Pneumonia is the single largest cause of death in children worldwide. Every year, it kills an estimated 1.4 million children under the age of five years, accounting for 18% of all deaths of children under five years old worldwide." These statistics from the [World Health Organization](https://www.who.int/maternal_child_adolescent/news_events/news/2011/pneumonia/en/) show the importance of an accurate and timely diagnosis of the infection.
+Brain tumors are diagnosed fist by a neurological exam, and then through imaging methods including CT and MRI scans. If necessary, a biopsy is done to confirm a diagnosis (Brain and Spinal Cord Tumors, 2020). A biopsy is a surgical procedure where a small sample of tissue is extracted. Depending on the location of the suspected tumor, this can be dangerous to the patient, or impossible to perform if in a particularly sensitive area.
 
-There is often a [backlog](https://schwanerinjury.com/delayed-mri-ct-scan-or-x-ray-can-death-injury/) of x-ray results due to a shortage of radiologists. Some hospitals have tried to address this problem by outsourcing x-rays to other countries in different time zones to have more coverage.
+The stakeholders here are the doctors and MRI technicians treating pediatric with suspected brain tumors.
 
-This neural network does not mean to replace any radiologists' inspection of an x-ray. If a child is getting a chest x-ray it is likely already considered a priority case. Using this neural netowork could help doctors and hospital administrators think about ways to help their patient prioritization protocols, how to possibly expedite the process for the pedriatric patients with suspected pneumonia, and whether or not it is helpful to them.
-
-The stakeholders here are the doctors treating pediatric patients with suspected pneumonia.
 
 ## Data Understanding
 
-The dataset is comprised of x-ray images of the frontal plane, anterior to posterior, of pediatric patients. Within these, 1,583 show normal lungs, and 4,273 show lungs with pneumonia. The original dataset comes from Kermany et al. on [Mendeley](https://data.mendeley.com/datasets/rscbjbr9sj/2). The Mendeley dataset includes a second set of images--ocular--that are outside of the scope of this project so we opted to use the [Kaggle](https://www.kaggle.com/paultimothymooney/chest-xray-pneumonia) dataset that already has just the relevant x-rays.
+The data used includes thousands of images of MRI brain scans. The data was sourced from two Kaggle datasets: [Kaggle](https://www.kaggle.com/navoneel/brain-mri-images-for-brain-tumor-detection) and [Kaggle](https://www.kaggle.com/sartajbhuvaji/brain-tumor-classification-mri).
 
-Having a high recall score for this type of neural network is important because a false negative is much more harmful than a false positive.
+In this project, a scan with a tumor was considered Class 0, and a scan with a tumor present was considered Class 1. As a result, recall score was the prioritized along with accuracy in this type of neural network, as the effects of false negative can be much more harmful than a false positive.
+
 
 ## Data Preparation
 After retrieving the data from the dataset it is important to classify images according to their labels. Because we are running a CNN, a supervised learning machine method, labels need to be attributed to images to help in the process of reducing loss, and increasing recall and accuracy. After this is done, each image is converted into an 1-D array, and divided by 255. The values of the grayscale pixels range from 0-255. Dividing each pixel by 255 normalizes our grayscale to values between 0-1, and also helps our CNN algorithm converge faster.
 
-![class imbalance](https://github.com/samjdedes/pneumonia_detection/blob/PR_branch/visualization/image_classification.png)
+![class imbalance](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/image_classification.png)
 Next we needed to address our class imbalance. The first was to use a keras preprocessing function called ImageDataGenerator. ImageDataGenerator takes a batch of images used for training, applies a series of random transformation to each image in the batch (including random rotation, resizing and shearing), and replaces the original batch with the new randomly transformed batch. This effectively allows us to expand the training dataset in order to improve the performance and ability of the model to generalize.
-
 
 
 ## Modeling
@@ -79,59 +71,68 @@ A Convolution Neural Network (CNN) is built on three broad strategies:
   3)Fully connected layer to equip the network with classification capabilities
 
 
-![CNN graph by PR](https://github.com/samjdedes/pneumonia_detection/blob/PR_branch/visualization/cnn.jpg)
-
-The performance of the model is evaluated using Recall and Accuracy metrics calculates how many of the Actual Positives our model capture through labeling it as Positive (True Positive). Recall calculates how many of the Actual Positives our model capture through labeling it as Positive (True Positive), in other words recall means the percentage of a pneumonia correctly identified. More accurate model lead to make better decision. The cost of errors can be huge but optimizing model accuracy mitigates that cost.
-
-The best model from this study achieved a Recall score of 93%, while scoring 90% of overall Accuracy.
-
-![recall/accuracy](https://github.com/samjdedes/pneumonia_detection/blob/master/visualization/Model1_Epoch12_Batch32%20%20model_accuracy_recall.png)
+![CNN Visual](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/cnn.jpg)
 
 
-![lime visuals](https://github.com/samjdedes/pneumonia_detection/blob/master/visualization/Sample_True_Predictions_5.png)
+![recall/accuracy](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/Model1_Epoch12_Batch32%20%20model_accuracy_recall.png)
+
+
+![lime visuals](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/Sample_True_Predictions_5.png)
 
 
 ## Evaluation
 
-Our best model had a final recall score of 93% and an overall accuracy score of 91%, this means that our model is correctly identifying an overwhelming majority of the x-ray images. This is a great start, but the fact still remains that there are still patients that have pneumonia but are being misclassified as having healthy and normal lungs. A few theories why this may be is that we have a relatively small dataset in regards to how many of our images are classified as normal. Also it may be difficult to further increase this score due to the nature that those who are coming in for chest x-rays are not doing so on a whim. They may be experiencing difficulty breathing any cardiovascular difficulties. It is not immediately clear if these patients were excluded from the study. So it is not apparent if the model is struggling with classification because even though a patient is identified as healthy, they may still have some abnormality present in their chest cavity.  
-
-Another limitation our model has is a lack of data. There is currently difficulty gaining access to publicaly available pediatric chest x-ray images. We would have liked to include additional data, but in our search for more, we were unable to find x-ray images from children with pneumonia and/or with normal lungs. There are datasets available with adult lung images, however these would not be a good test set because adult and pediatric chest cavity structures are different and the model would not be able to accurately predict. A potential additional step, that is outside of the scope of this project, is to add adult to training, test, and validation sets.
-
-
-
 
 ## Potential Next Steps
 
-Our next steps would be to divide our images classified as pneumonia between viral pneumonia, and bacterial pneumonia. We would effectively be adding another class that our model would need to classify. But we thought by splitting our pneumonia classes we may help our model by leveling out our class imbalance. Further we believe that if our model was succesful at identifying all three classes, it may aid medical practitioners to implement the appropriate medicinal therapies for the respective diagnoses of patients with viral pneumonia and bacterial pneumonia.
+Our next steps would be to classify images by location of tumor, and malignant or benign. Furthermore, there is a potential for early detection of tumors if labelled scans of undiagnosed brain tumors can be incorporated into the model.
 
 
-Appendix
-Repository Navigation
+# Appendix
+## Repository Navigation
 
 Below visualizes the structure of this repository.
 
 MRI_brain_scan_tumor_detection
 (Project Folder)
     |
-    *README.md (Current file. Markdown file Containing Information on Project Purpose, Process, and Findings)
+    •README.md (Current file. Markdown file Containing Information on Project Purpose, Process, and Findings)
     |
     |       
     ├ data (Folder Containing Reference Data)
     |    |
-    |    └ churn_data.csv (CSV file containing SyriaTel customer churn data)
+    |    └ README_MRI_Data.txt (Text file containing sources of image data)
     |
     |
     ├ notebooks (Folder Containing Notebooks Used as Basis of Analysis)
     |    |
-    |    ├ EDA.ipynb (Jupyter Notebook containing data exploration process, initial model development, and creation of visualizations)
+    |    ├ exploratory
+    |    |   |
+    |    |   ├ EDA.ipynb (Jupyter Notebook containing data exploration process, initial model development, and creation of visualizations)
+    |    |   |
+    |    |   └ make_pictures_EDA.ipynb (Jupyter Notebook containing process of creating .jpg images from .nii.gz medical imaging files, functions not yet completed)
     |    |
-    |    └ images (Folder containing images created by .ipynb files)
+    |    └ report
+    |        |
+    |        └ index.ipynb (Jupyter Notebook calling functions from .py that import and clean data, create model and visualizations)
     |
     |
-    └ report (Folder Containing Finalized Notebooks, Presentation PDF, and Visualizations)
-         |
-         ├ index.ipynb (Jupyter Notebook calling functions from report_functions.py that import and clean data. Further functions are called that create model and visualizations)
-         |
-         ├ index_functions.py (Python Textfile containing functions called in report.ipynb)
-         |
-         └ images (Folder containing all images created by report.ipynb used in final presentation)
+    ├ report (Folder Containing Finalized Notebooks, Presentation PDF, and Visualizations)
+    |     |
+    |     ├ final_notebook.pdf (PDF of final code, calls functions from .py that import and clean data, create model and visualizations)
+    |     |
+    |     └ figures (Folder containing all images created by index.ipynb used in final presentation)
+    |
+    |
+    └ src (Folder containing custom functions used to import and clean data, create model and visualizations)
+          |
+          ├ __init__.py (Python file that allows python files in this directory to be treated as python modules)
+          |
+          └ data_functions.py (Python file containing all custom data functions called in index.ipynb)
+
+
+## References
+
+Brain and Spinal Cord Tumors. (2020, November 13). National Institute of Health. https://www.ninds.nih.gov/Disorders/Patient-Caregiver-Education/Hope-Through-Research/Brain-and-Spinal-Tumors-Hope-Through#definition
+
+Brain Tumors. (2020, September 18). US National Library of Medicine. https://medlineplus.gov/braintumors.html
