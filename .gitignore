@@ -5,6 +5,10 @@ notebooks/exploratory/figures/fun_with_matplotlib.png
 notebooks/exploratory/figures/test.jpg
 README.md
 
+# Shortcut #
+############
+*.lnk
+
 # Folders #
 ###########
 notebooks/exploratory/saved_models
