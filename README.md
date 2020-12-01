@@ -39,17 +39,20 @@ Project development completed with Cross-Industry Standard Process for Data Mini
 
 According to the [National Institute of Health](https://www.ninds.nih.gov/Disorders/Patient-Caregiver-Education/Hope-Through-Research/Brain-and-Spinal-Tumors-Hope-Through#definition), "[brain tumors] occur when something goes wrong with genes that regulate cell growth, allowing cells to grow and divide out of control... Depending on its type, a growing tumor may not cause any symptoms or can kill or displace healthy cells or disrupt their function" (Brain and Spinal Cord Tumors, 2020).
 
-Brain tumors are diagnosed fist by a neurological exam, and then through imaging methods including MRI scans. Currently, images are analyzed my MRI technicians before being sent to the doctor for a final analysis. If necessary, a biopsy is done to confirm a diagnosis (Brain and Spinal Cord Tumors, 2020). A biopsy is a surgical procedure where a small sample of tissue is extracted. Depending on the location of the suspected tumor, this can be dangerous to the patient, or impossible to perform if in a particularly sensitive area.
+Brain tumors are diagnosed first by a neurological exam, and then through imaging methods including MRI scans. Currently, images are analyzed my MRI technicians before being sent to the doctor for a final analysis. If necessary, a biopsy is done to confirm a diagnosis. A biopsy is a surgical procedure where a small sample of tissue is extracted. Depending on the location of the suspected tumor, this can be dangerous to the patient, or impossible to perform if in a particularly sensitive area.
 
-With advances in image classification techniques, preliminary analyses can be aided by computers through algorithms like those created in this project. Furthermore, this can reduce the need for potentially dangerous biopsies for diagnosis can be reduced, allowing doctors and patients to focus on the next step, treatment.
-
-The stakeholders here are the doctors and MRI technicians treating patients with suspected brain tumors.
-
+With advances in image classification techniques, preliminary analyses can be aided by computers through algorithms like those created in this project. Furthermore, this can reduce the need for potentially dangerous biopsies for diagnosis can be reduced, allowing doctors and patients to focus on the next step, treatment. Doctors, patients, and MRI technicians stand to benefit from classification algorithms.
 
 
 ## Data Understanding
 
-The data used includes thousands of images of MRI brain scans. The data was sourced from two Kaggle datasets: [Kaggle](https://www.kaggle.com/navoneel/brain-mri-images-for-brain-tumor-detection) and [Kaggle](https://www.kaggle.com/sartajbhuvaji/brain-tumor-classification-mri).
+Thousands of MRI brain scans were used in this project. The scans were sourced from two Kaggle datasets: [Kaggle 2018](https://www.kaggle.com/navoneel/brain-mri-images-for-brain-tumor-detection) and [Kaggle 2020](https://www.kaggle.com/sartajbhuvaji/brain-tumor-classification-mri).
+Included in these scans are brains with and without brain tumors present, of various section and scan types. The three types of sections included are frontal, medial, and horizontal. ![Section Types](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/mri_axis2_pd500px.jpg) (Technische Universität München, n.d.)
+
+Various scan types include Proton Density and Transverse Magnetization. Different types of scans are useful for detecting different types of tissue in different regions of the brain. Some tissue types are more visible under contrast material, while others propagate magnetization differently.
+           Proton Density Scan            |  Transverse Magnetization (Type 2) Scan
+:----------------------------------------:|:----------------------------------------:
+![Scan Type PD](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/PD.gif) | ![Scan Type T2](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/T2.gif)
 
 In this project, a scan with a tumor was considered Class 0, and a scan with a tumor present was considered Class 1. As a result, recall score was the prioritized along with accuracy in this type of neural network, as the effects of false negative can be much more harmful than a false positive.
 
@@ -68,11 +71,11 @@ The convolutional layers in the network along with filters help in extracting th
 
 A Convolution Neural Network (CNN) is built on three broad strategies:
 
-  1)Learn features using Convolution layer
+  1) Learn features using Convolution layer
 
-  2)Reduce computational costs by down sample the image and reduce dimensionality using Max-Pooling(subsampling)
+  2) Reduce computational costs by down sample the image and reduce dimensionality using Max-Pooling(subsampling)
 
-  3)Fully connected layer to equip the network with classification capabilities
+  3) Fully connected layer to equip the network with classification capabilities
 
 The performance of the model is evaluated using Recall and Accuracy metrics calculates how many of the Actual Positives our model capture through labeling it as Positive (True Positive). Recall calculates how many of the Actual Positives our model capture through labeling it as Positive (True Positive), in other words recall means the percentage of a pneumonia correctly identified. More accurate model lead to make better decision. The cost of errors can be huge but optimizing model accuracy mitigates that cost.
 
