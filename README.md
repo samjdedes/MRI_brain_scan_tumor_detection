@@ -37,7 +37,7 @@ The goal is to develop and train a Convolutional Neural Network (CNN) machine le
 
 The model classifies MRI scans of patients with and without tumors, like those below. <br>
 
-[Scan Comparison](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/scan_comparison.jpg)
+![Scan Comparison](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/scan_comparison.jpg)
 
 
 ## Business Understanding
