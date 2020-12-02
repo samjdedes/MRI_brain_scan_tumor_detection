@@ -6,25 +6,25 @@ This is the project repository for a machine learning model used to identify the
 
 ### Notebooks
 
- - [Exploratory Data Analysis](notebooks/exploratory)
+ - [Exploratory Data Analysis](notebooks/exploratory/EDA.ipynb)
 
- - [Final Report Notebook](notebooks/report)
+ - [Final Report Notebook](notebooks/report/index.ipynb)
 
 
 ### Reports
- - [Executive Summary](report/final_presentation.pdf)
+ - [Executive Summary](report/presentation_slides.pdf)
 
  - [Figures](report/figures)
 
 
 ### Data
 
- - [Data Access Readme](data)
+ - [Data Access Readme](data/README_MRI_Data.txt)
 
 
 ### SRC
 
- - [Custom Functions](src)
+ - [Custom Functions](src/data_functions.py)
 
 ### ReadMe
 
@@ -37,7 +37,7 @@ The goal is to develop and train a Convolutional Neural Network (CNN) machine le
 
 The model classifies MRI scans of patients with and without tumors, like those below. <br>
 
-![Scan Comparison](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/scan_comparison.jpg)
+![Scan Comparison](report/figures/scan_comparison.jpg)
 
 
 ## Business Understanding
@@ -52,13 +52,13 @@ With advances in image classification techniques, preliminary analyses can be ai
 ## Data Understanding
 
 Thousands of MRI brain scans were used in this project. The scans were sourced from two Kaggle datasets and BrainDevelopment.org: [Kaggle 2018](https://www.kaggle.com/navoneel/brain-mri-images-for-brain-tumor-detection), [Kaggle 2020](https://www.kaggle.com/sartajbhuvaji/brain-tumor-classification-mri), and [BrainDevelopment.org](https://brain-development.org/ixi-dataset/).
-Included in these scans are brains with and without brain tumors present, of various section and scan types. The three types of sections included are frontal, medial, and horizontal. <br> ![Section Types](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/mri_axis2_pd500px.jpg)
+Included in these scans are brains with and without brain tumors present, of various section and scan types. The three types of sections included are frontal, medial, and horizontal. <br> ![Section Types](report/figures/mri_axis2_pd500px.jpg)
 (Technische Universität München, n.d.)
 
 Various scan types include Proton Density and Transverse Magnetization. Different types of scans are useful for detecting different types of tissue in different regions of the brain. Some tissue types are more visible under contrast material or propagate magnetization differently.
            Proton Density Scan            |  Transverse Magnetization (Type 2) Scan
 :----------------------------------------:|:----------------------------------------:
-![Scan Type PD](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/PD.gif) | ![Scan Type T2](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/T2.gif)
+![Scan Type PD](report/figures/PD.gif)    | ![Scan Type T2](report/figures/T2.gif)
 
 In this project, a scan with a tumor was considered Class 0, and a scan with a tumor present was considered Class 1. As a result, recall score was the prioritized along with accuracy in this type of neural network, as the effects of false negative can be much more harmful than a false positive.
 
@@ -87,11 +87,11 @@ The performance of the model was evaluated with accuracy and recall scores. Accu
 
 The initial model incorporated a single convolutional layer and fully connected layer. This resulted in the results represented by the confusion matrix below, with an accuracy of 85% and a recall of 96%.  
 
-![Initial Model Confusion Matrix](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/confusion_matrix_fsm.png)
+![Initial Model Confusion Matrix](report/figures/confusion_matrix_fsm.png)
 
 While the initial model had good recall, there was plenty of room for improvement in accuracy, notice the number in the top right (False Positives) is greater than that in the top left (True Negatives). By adding several more Convolutional layers, implementing Max-Pooling, and incorporating dropout layers, which help prevent over-fitting. This resulted in an improvement in accuracy with little impact on recall, with a final accuracy and recall of 88% and 95%, respectively.
 
-![Final Model Confusion Matrix](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/confusion_matrix_final.png)
+![Final Model Confusion Matrix](report/figures/confusion_matrix_final.png)
 
 
 ## LIME Visualization
