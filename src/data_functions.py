@@ -226,76 +226,76 @@ def plot_confusion_matrix(model, X, Y, labels=['No Tumor', 'Tumor'], filename='d
     plt.show()
     
     
-def lime_image(model, image, min_superpixels=1, max_superpixels=10, positive_only=False, negative_only=False, hide_rest=False,\
-                filename='default', path=None, figsize=(15,15), axis='off', suptitle='Region Analysis with LIME'):
-    '''
-    Create a visual of the inner workings of the image processing neural network using LimeImageExplainer from lime.lime_image.
-        It does this by separating the image into various regions known as "superpixels" and judging model's performance
-        with and without these superpixels on the image.
+# def lime_image(model, image, min_superpixels=1, max_superpixels=10, positive_only=False, negative_only=False, hide_rest=False,\
+#                 filename='default', path=None, figsize=(15,15), axis='off', suptitle='Region Analysis with LIME'):
+#     '''
+#     Create a visual of the inner workings of the image processing neural network using LimeImageExplainer from lime.lime_image.
+#         It does this by separating the image into various regions known as "superpixels" and judging model's performance
+#         with and without these superpixels on the image.
     
-    Parameters:
-        model (keras sequantial model): model used in analysis of image
-        image (np.array): image to be analyzed
-        *kwargs
-        min_superpixels (int): minimum number of regions in LIME analysis of model's classification. Default 1
-        max_superpixels (int): maxmum number of regions in LIME analysis of model's classification. Default 10
-        positive_only (bool): indicate whether to include superpixels correlated to correct classification. Default False
-        negative_only (bool): indicate whether to include superpixels correlated to incorrect classification. Default False
-        hide_rest (bool): if set to True, hides parts of image not included in superpixels
-        filename (string): appends file with name 'default' unless specified or path kwarg specified. Set to None to prevent file from saving
-        path (string): full path to save file, file type may be specified. Default None
-        figsize (tuple): size of figure to be saved. Default (15, 15)
-        axis (string): turn axis off. Default 'off'
-        suptitle (string): main title of plot. Default 'Different Features Analyzed by Model'
-    '''
+#     Parameters:
+#         model (keras sequantial model): model used in analysis of image
+#         image (np.array): image to be analyzed
+#         *kwargs
+#         min_superpixels (int): minimum number of regions in LIME analysis of model's classification. Default 1
+#         max_superpixels (int): maxmum number of regions in LIME analysis of model's classification. Default 10
+#         positive_only (bool): indicate whether to include superpixels correlated to correct classification. Default False
+#         negative_only (bool): indicate whether to include superpixels correlated to incorrect classification. Default False
+#         hide_rest (bool): if set to True, hides parts of image not included in superpixels
+#         filename (string): appends file with name 'default' unless specified or path kwarg specified. Set to None to prevent file from saving
+#         path (string): full path to save file, file type may be specified. Default None
+#         figsize (tuple): size of figure to be saved. Default (15, 15)
+#         axis (string): turn axis off. Default 'off'
+#         suptitle (string): main title of plot. Default 'Different Features Analyzed by Model'
+#     '''
     
-    # instantiate image explainer
-    explainer = li.LimeImageExplainer()
+#     # instantiate image explainer
+#     explainer = li.LimeImageExplainer()
     
-    # difference
-    diff = max_superpixels - min_superpixels
+#     # difference
+#     diff = max_superpixels - min_superpixels
     
-    # calculate shape of figure
-    columns = int(np.ceil((diff)**0.5))
-    rows = int(np.ceil(diff/columns))
+#     # calculate shape of figure
+#     columns = int(np.ceil((diff)**0.5))
+#     rows = int(np.ceil(diff/columns))
     
-    # get grid params
-    grid_max = rows*columns
-    grid_diff = grid_max - diff
+#     # get grid params
+#     grid_max = rows*columns
+#     grid_diff = grid_max - diff
     
-    # instantiate plot to populate with explained images
-    fig, ax = plt.subplots(rows, columns, figsize=figsize)
-    ax = ax.flatten()
-    m_end = diff // rows
-    n_end = diff % (columns)
+#     # instantiate plot to populate with explained images
+#     fig, ax = plt.subplots(rows, columns, figsize=figsize)
+#     ax = ax.flatten()
+#     m_end = diff // rows
+#     n_end = diff % (columns)
     
-    for i in range(diff):
-        k = i + min_superpixels
+#     for i in range(diff):
+#         k = i + min_superpixels
         
-        # analyze image and create mask
-        explanation = explainer.explain_instance(image, model.predict, top_labels=5, hide_color=0, num_samples=1000)
-        temp, mask = explanation.get_image_and_mask(0, num_features=k, positive_only=positive_only, negative_only=negative_only, hide_rest=hide_rest)
+#         # analyze image and create mask
+#         explanation = explainer.explain_instance(image, model.predict, top_labels=5, hide_color=0, num_samples=1000)
+#         temp, mask = explanation.get_image_and_mask(0, num_features=k, positive_only=positive_only, negative_only=negative_only, hide_rest=hide_rest)
 
-        # plot results
-        ax[i].imshow(mark_boundaries(temp/2 + 0.5, mask))
-        ax[i].axis(axis)
-        ax[i].set_title(f'# of Superpixels: {k}')            
+#         # plot results
+#         ax[i].imshow(mark_boundaries(temp/2 + 0.5, mask))
+#         ax[i].axis(axis)
+#         ax[i].set_title(f'# of Superpixels: {k}')            
 
     
-    if grid_diff:
-        for j in range(diff, grid_max):
-            ax[j].axis(axis)
+#     if grid_diff:
+#         for j in range(diff, grid_max):
+#             ax[j].axis(axis)
             
     
-    fig.suptitle(suptitle)
+#     fig.suptitle(suptitle)
     
-    if path:
-        plt.savefig(f'{path}', transparent=True)
+#     if path:
+#         plt.savefig(f'{path}', transparent=True)
     
-    elif filename:
-        plt.savefig(f'figures/plot_confusion_matrix_{filename}', transparent=True)
+#     elif filename:
+#         plt.savefig(f'figures/plot_confusion_matrix_{filename}', transparent=True)
         
-    plt.show()
+#     plt.show()
 
 
 def lime_image(model, image, min_superpixels=1, max_superpixels=10, positive_only=False, negative_only=False, hide_rest=False,\

@@ -47,9 +47,10 @@ With advances in image classification techniques, preliminary analyses can be ai
 ## Data Understanding
 
 Thousands of MRI brain scans were used in this project. The scans were sourced from two Kaggle datasets: [Kaggle 2018](https://www.kaggle.com/navoneel/brain-mri-images-for-brain-tumor-detection) and [Kaggle 2020](https://www.kaggle.com/sartajbhuvaji/brain-tumor-classification-mri).
-Included in these scans are brains with and without brain tumors present, of various section and scan types. The three types of sections included are frontal, medial, and horizontal. ![Section Types](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/mri_axis2_pd500px.jpg) (Technische Universität München, n.d.)
+Included in these scans are brains with and without brain tumors present, of various section and scan types. The three types of sections included are frontal, medial, and horizontal. ![Section Types](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/mri_axis2_pd500px.jpg)
+(Technische Universität München, n.d.)
 
-Various scan types include Proton Density and Transverse Magnetization. Different types of scans are useful for detecting different types of tissue in different regions of the brain. Some tissue types are more visible under contrast material, while others propagate magnetization differently.
+Various scan types include Proton Density and Transverse Magnetization. Different types of scans are useful for detecting different types of tissue in different regions of the brain. Some tissue types are more visible under contrast material or propagate magnetization differently.
            Proton Density Scan            |  Transverse Magnetization (Type 2) Scan
 :----------------------------------------:|:----------------------------------------:
 ![Scan Type PD](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/PD.gif) | ![Scan Type T2](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/T2.gif)
@@ -59,7 +60,7 @@ In this project, a scan with a tumor was considered Class 0, and a scan with a t
 
 ## Data Preparation
 
-After sourcing data, it was loaded, duplicates removed, and resized to work with the format of Convolutional Neural Network.
+After sourcing data, it was loaded using cv2 and duplicate images were removed with custom functions. The images were then resized and reshaped to work with the format of Convolutional Neural Network.
 To create a more robust model, ImageDataGenerator was used to create altered images used in tandem with original images.
 
 
@@ -135,3 +136,5 @@ MRI_brain_scan_tumor_detection
 Brain and Spinal Cord Tumors. (2020, November 13). National Institute of Health. https://www.ninds.nih.gov/Disorders/Patient-Caregiver-Education/Hope-Through-Research/Brain-and-Spinal-Tumors-Hope-Through#definition
 
 Brain Tumors. (2020, September 18). US National Library of Medicine. https://medlineplus.gov/braintumors.html
+
+Technische Universität München. (n.d.). Planes of the Brain[Illustration]. Https://Wiki.Tum.De/. https://wiki.tum.de/download/attachments/29600620/Brain_directions_planes__sections_1_small.gif?version=1&modificationDate=1494257234627&api=v2
