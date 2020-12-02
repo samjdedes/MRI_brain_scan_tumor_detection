@@ -12,9 +12,9 @@ This is the project repository for a machine learning model used to identify the
 
 
 ### Reports
- - [Executive Summary](reports/presentation)
+ - [Executive Summary](report/final_presentation.pdf)
 
- - [Figures](reports/figures)
+ - [Figures](report/figures)
 
 
 ### Data
