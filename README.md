@@ -6,48 +6,53 @@ This is the project repository for a machine learning model used to identify the
 
 ### Notebooks
 
-[Exploratory Data Analysis](notebooks/exploratory)
+ - [Exploratory Data Analysis](notebooks/exploratory)
 
-[Final Report Notebook](notebooks/report)
+ - [Final Report Notebook](notebooks/report)
 
 
 ### Reports
-[Executive Summary](reports/presentation)
+ - [Executive Summary](reports/presentation)
 
-[Figures](reports/figures)
+ - [Figures](reports/figures)
 
 
 ### Data
 
-[How to access data](data)
+ - [Data Access Readme](data)
 
 
 ### SRC
 
-[Custom Functions](src)
+ - [Custom Functions](src)
 
 ### ReadMe
 
-[Read Me](README.md)
+ - [Read Me](README.md)
 
 
 # Project Goal and Background
-Project development completed with Cross-Industry Standard Process for Data Mining (CRISP-DM) methodology. The goal is to develop and train a Convolutional Neural Network (CNN) machine learning model to identify the presence of tumors in MRI brain scans.
+
+The goal is to develop and train a Convolutional Neural Network (CNN) machine learning model to identify the presence of tumors in MRI brain scans. Project development completed with Cross-Industry Standard Process for Data Mining (CRISP-DM) methodology.
+
+The model classifies MRI scans of patients with and without tumors, like those below. <br>
+
+[Scan Comparison](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/scan_comparison.jpg)
 
 
-## Business Understanding 
+## Business Understanding
 
 According to the [National Institute of Health](https://www.ninds.nih.gov/Disorders/Patient-Caregiver-Education/Hope-Through-Research/Brain-and-Spinal-Tumors-Hope-Through#definition), "[brain tumors] occur when something goes wrong with genes that regulate cell growth, allowing cells to grow and divide out of control... Depending on its type, a growing tumor may not cause any symptoms or can kill or displace healthy cells or disrupt their function" (Brain and Spinal Cord Tumors, 2020).
 
 Brain tumors are diagnosed first by a neurological exam, and then through imaging methods including MRI scans. Currently, images are analyzed my MRI technicians before being sent to the doctor for a final analysis. If necessary, a biopsy is done to confirm a diagnosis. A biopsy is a surgical procedure where a small sample of tissue is extracted. Depending on the location of the suspected tumor, this can be dangerous to the patient, or impossible to perform if in a particularly sensitive area.
 
-With advances in image classification techniques, preliminary analyses can be aided by computers through algorithms like those created in this project. Furthermore, this can reduce the need for potentially dangerous biopsies for diagnosis can be reduced, allowing doctors and patients to focus on the next step, treatment. Doctors, patients, and MRI technicians stand to benefit from classification algorithms.
+With advances in image classification techniques, preliminary analyses can be aided by computers through algorithms like those created in this project. This can reduce the need for potentially dangerous biopsies, allowing doctors and patients to focus on the next step, treatment. Doctors, patients, and MRI technicians stand to benefit from classification algorithms.
 
 
 ## Data Understanding
 
-Thousands of MRI brain scans were used in this project. The scans were sourced from two Kaggle datasets: [Kaggle 2018](https://www.kaggle.com/navoneel/brain-mri-images-for-brain-tumor-detection) and [Kaggle 2020](https://www.kaggle.com/sartajbhuvaji/brain-tumor-classification-mri).
-Included in these scans are brains with and without brain tumors present, of various section and scan types. The three types of sections included are frontal, medial, and horizontal. ![Section Types](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/mri_axis2_pd500px.jpg)
+Thousands of MRI brain scans were used in this project. The scans were sourced from two Kaggle datasets and BrainDevelopment.org: [Kaggle 2018](https://www.kaggle.com/navoneel/brain-mri-images-for-brain-tumor-detection), [Kaggle 2020](https://www.kaggle.com/sartajbhuvaji/brain-tumor-classification-mri), and [BrainDevelopment.org](https://brain-development.org/ixi-dataset/).
+Included in these scans are brains with and without brain tumors present, of various section and scan types. The three types of sections included are frontal, medial, and horizontal. <br> ![Section Types](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/mri_axis2_pd500px.jpg)
 (Technische Universität München, n.d.)
 
 Various scan types include Proton Density and Transverse Magnetization. Different types of scans are useful for detecting different types of tissue in different regions of the brain. Some tissue types are more visible under contrast material or propagate magnetization differently.
@@ -60,15 +65,15 @@ In this project, a scan with a tumor was considered Class 0, and a scan with a t
 
 ## Data Preparation
 
-After sourcing data, it was loaded using cv2 and duplicate images were removed with custom functions. The images were then resized and reshaped to work with the format of Convolutional Neural Network.
-To create a more robust model, ImageDataGenerator was used to create altered images used in tandem with original images.
+After sourcing data, paths to the images were saved and used to split data into train, validation, and testing images. Using the paths, images were loaded using openCV and duplicates were removed with custom functions. The images were then resized and reshaped to work with the format of Convolutional Neural Network.
+To create a more robust model, ImageDataGenerator was used to create slightly altered images used in tandem with original images while training the model.
 
 
 ## Modeling
 
-Artificial intelligence (AI) Deep Neural Network makes it possible to process images in the form of pixels as input and to predict the desired classification as output. The development of Convolutional Neural Network (CNN) layers trains a model for significant gains in the ability to classify images and detect objects in a picture.  Multiple processing layers use image analysis filters, or convolutions as the model is trained.
+A Convolutional Neural Network makes it possible to process images in the form of pixels as input and to predict the desired classification as output. The development of Convolutional Neural Network (CNN) layers trains a model for significant gains in the ability to classify images and detect objects in a picture. Multiple processing layers use image analysis filters, or convolutions as the model is trained.
 
-The convolutional layers in the network along with filters help in extracting the spatial and temporal features in an image. The layers have a weight-sharing technique, which helps in reducing computation efforts.
+The convolutional layers help extract the spatial features in an image. The layers have a weight-sharing technique, which helps in reducing computation efforts.
 
 A Convolution Neural Network (CNN) is built on three broad strategies:
 
@@ -78,13 +83,29 @@ A Convolution Neural Network (CNN) is built on three broad strategies:
 
   3) Fully connected layer to equip the network with classification capabilities
 
-The performance of the model is evaluated using Recall and Accuracy metrics calculates how many of the Actual Positives our model capture through labeling it as Positive (True Positive). Recall calculates how many of the Actual Positives our model capture through labeling it as Positive (True Positive), in other words recall means the percentage of a pneumonia correctly identified. More accurate model lead to make better decision. The cost of errors can be huge but optimizing model accuracy mitigates that cost.
+The performance of the model was evaluated with accuracy and recall scores. Accuracy is calculated by comparing the number correctly classified images (True Positives and True Negatives) to the total number of images. In contrast, recall compares scans correctly classified as having tumors (True Positives) to those mis-identified as not having tumors (False Negatives). Given the dangers of misdiagnosing a patient with a tumor as being tumor-free, a high recall is desirable.
 
-![Confusion Matrix](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/plot_confusion_matrix_final.png)
+The initial model incorporated a single convolutional layer and fully connected layer. This resulted in the results represented by the confusion matrix below, with an accuracy of 85% and a recall of 96%.  
 
-## Potential Next Steps
+![Initial Model Confusion Matrix](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/confusion_matrix_fsm.png)
 
-The next steps will be to classify images by location of tumor, and malignant or benign. Furthermore, there is a potential for early detection of tumors if labelled scans of undiagnosed brain tumors can be incorporated into the model.
+While the initial model had good recall, there was plenty of room for improvement in accuracy, notice the number in the top right (False Positives) is greater than that in the top left (True Negatives). By adding several more Convolutional layers, implementing Max-Pooling, and incorporating dropout layers, which help prevent over-fitting. This resulted in an improvement in accuracy with little impact on recall, with a final accuracy and recall of 88% and 95%, respectively.
+
+![Final Model Confusion Matrix](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/confusion_matrix_final.png)
+
+
+## LIME Visualization
+
+To better understand how the model is classifying the images, I used LIME. LIME is an acronym for Local Interpretable Model-agnostic Explanations. The way LIME works is it breaks the image into several regions, called "superpixels", and the model classifies the image with the various superpixels turned on and off. Superpixels are then given weights based on their importance to the model's classification. Below is a scan of a patient with a tumor, located in top region of the brain. Using LIME, we see with the superpixel the model had given the most weight is picking up on the region containing the tumor, evidence the model is picking up on relevant regions when identifying the presence of tumors.
+
+![LIME Visual](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/LIME_True_Positive.png)
+
+
+## Next Steps
+
+With more data, next steps will be to classify images by location; whether is it in the frontal, parietal, temporal, occipital lobe or cerebellum, and whether the tumor is malignant or benign. Furthermore, there is a potential for early detection of tumors if labelled scans of undiagnosed brain tumors can be incorporated into the model.
+
+There is potential to create separate models based on the type of section (frontal, horizontal, or medial), and this may show improvement in model accuracy and validity.
 
 
 # Appendix
