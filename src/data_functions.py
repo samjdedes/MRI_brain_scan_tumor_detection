@@ -299,7 +299,7 @@ def plot_confusion_matrix(model, X, Y, labels=['No Tumor', 'Tumor'], filename='d
 
 
 def lime_image(model, image, min_superpixels=1, max_superpixels=10, positive_only=False, negative_only=False, hide_rest=False,\
-                filename='default', path=None, figsize=(15,15), axis='off', suptitle='Different Features Analyzed by Model'):
+                filename='default', path=None, figsize=(15,10), axis='off', suptitle='Different Features Analyzed by Model'):
     '''
     Create a visual of the inner workings of the image processing neural network using LimeImageExplainer from lime.lime_image.
         It does this by separating the image into various regions known as "superpixels" and judging model's performance
