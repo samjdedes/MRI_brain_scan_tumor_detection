@@ -165,7 +165,7 @@ def plot_metrics(model_history, filename='default', path=None):
 
     ax[1].plot(epochs , train_loss , 'g-o' , label = 'Testing Loss')
     ax[1].plot(epochs , val_loss , 'r-o' , label = 'Validation Loss')
-    ax[1].set_title('Testing Accuracy & Loss')
+    ax[1].set_title('Testing & Validation Loss')
     ax[1].legend()
     ax[1].set_xlabel("Epochs")
     ax[1].set_ylabel("Testing & Validation Loss")
