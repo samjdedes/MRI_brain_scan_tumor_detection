@@ -66,7 +66,7 @@ In this project, a scan with a tumor was considered Class 0, and a scan with a t
 ## Data Preparation
 
 After sourcing data, paths to the images were saved and used to split data into train, validation, and testing images. Using the paths, images were loaded using openCV and duplicates were removed with custom functions. The images were then resized and reshaped to work with the format of Convolutional Neural Network.
-To create a more robust model, ImageDataGenerator was used to create slightly altered images used in tandem with original images while training the model.
+To create a more robust model ImageDataGenerator was explored to create slightly altered images used in tandem with original images while training the model, however, after testing several models it proved to reduce the accuracy and recall of the model.
 
 
 ## Modeling
@@ -83,13 +83,13 @@ A Convolution Neural Network (CNN) is built on three broad strategies:
 
   3) Fully connected layer to equip the network with classification capabilities
 
-The performance of the model was evaluated with accuracy and recall scores. Accuracy is calculated by comparing the number correctly classified images (True Positives and True Negatives) to the total number of images. In contrast, recall compares scans correctly classified as having tumors (True Positives) to those mis-identified as not having tumors (False Negatives). Given the dangers of misdiagnosing a patient with a tumor as being tumor-free, a high recall is desirable.
+The performance of the model was evaluated with accuracy and recall scores. Accuracy is calculated by comparing the number correctly classified images (True Positives and True Negatives) to the total number of images. In contrast, recall compares scans correctly classified as having tumors (True Positives) to those misidentified as not having tumors (False Negatives). Given the dangers of misdiagnosing a patient with a tumor as being tumor-free, a high recall is desirable.
 
-The initial model incorporated a single convolutional layer and fully connected layer. This resulted in the results represented by the confusion matrix below, with an accuracy of 85% and a recall of 96%.  
+The original model incorporated a single convolutional layer and fully connected layer. This resulted in the results represented by the confusion matrix below, with an accuracy of 85% and a recall of 96%.  
 
 ![Initial Model Confusion Matrix](report/figures/confusion_matrix_fsm.png)
 
-While the initial model had good recall, there was plenty of room for improvement in accuracy, notice the number in the top right (False Positives) is greater than that in the top left (True Negatives). By adding several more Convolutional layers, implementing Max-Pooling, and incorporating dropout layers, which help prevent over-fitting. This resulted in an improvement in accuracy with little impact on recall, with a final accuracy and recall of 88% and 95%, respectively.
+While the initial model had good recall, there was plenty of room for improvement in accuracy, notice the number in the top right (False Positives) is greater than that in the top left (True Negatives). By adding additional epochs, the model showed improved in accuracy and recall, with a final accuracy and recall of 98% and 99%, respectively.
 
 ![Final Model Confusion Matrix](report/figures/confusion_matrix_final.png)
 
