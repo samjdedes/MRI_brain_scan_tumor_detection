@@ -113,15 +113,13 @@ def remove_duplicates(data):
     return np.array(unique_list), np.array(duplicate_list)
 
 
-def plot_metrics(model_history, filename='default', path=None):
+def plot_metrics(model_history, path=None):
     '''
     Plots model performance over epochs and saves as .png
     
     Parameters:
         model_history (dict): history of a model
         *kwargs
-        is_dict (bool): specify if file is dict type
-        filename (string): appends file with name 'default' unless specified or path kwarg specified. Set to None to prevent file from saving
         path (string): full path to save file. File type may be specified
         
     '''
@@ -178,14 +176,11 @@ def plot_metrics(model_history, filename='default', path=None):
     
     if path:
         plt.savefig(f'{path}', transparent=True)
-    
-    elif filename:
-        plt.savefig(f'figures/plot_metrics_{filename}', transparent=True)
         
     plt.show()
 
 
-def plot_confusion_matrix(model, X, Y, labels=['No Tumor', 'Tumor'], filename='default', path=None):
+def plot_confusion_matrix(model, X, Y, labels=['No Tumor', 'Tumor'], path=None):
     '''
     Creates classification report, plots, and saves confusion matrix using the existing model (model), 
         test data (X_test), and test classifications (Y_test).
@@ -196,7 +191,6 @@ def plot_confusion_matrix(model, X, Y, labels=['No Tumor', 'Tumor'], filename='d
         Y (np.array): image classifications/ target (int) used to determine accuracy of predictions
         *kwargs
         labels (list): xlabels and ylabels for plot of confusion matrix, and target_names used in classification report
-        filename (string): appends file with name 'default' unless specified or path kwarg specified. Set to None to prevent file from saving
         path (string): full path to save file. File type may be specified
     '''
     
@@ -219,9 +213,6 @@ def plot_confusion_matrix(model, X, Y, labels=['No Tumor', 'Tumor'], filename='d
     
     if path:
         plt.savefig(f'{path}', transparent=True)
-    
-    elif filename:
-        plt.savefig(f'figures/plot_confusion_matrix_{filename}', transparent=True)
         
     plt.show()
     
