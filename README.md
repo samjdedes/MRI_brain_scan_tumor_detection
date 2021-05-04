@@ -44,7 +44,7 @@ The model classifies MRI scans of patients with and without tumors, like those b
 
 According to the [National Institute of Health](https://www.ninds.nih.gov/Disorders/Patient-Caregiver-Education/Hope-Through-Research/Brain-and-Spinal-Tumors-Hope-Through#definition), "[brain tumors] occur when something goes wrong with genes that regulate cell growth, allowing cells to grow and divide out of control... Depending on its type, a growing tumor may not cause any symptoms or can kill or displace healthy cells or disrupt their function" (Brain and Spinal Cord Tumors, 2020).
 
-Brain tumors are diagnosed first by a neurological exam, and then through imaging methods including MRI scans. Currently, images are analyzed my MRI technicians before being sent to the doctor for a final analysis. If necessary, a biopsy is done to confirm a diagnosis. A biopsy is a surgical procedure where a small sample of tissue is extracted. Depending on the location of the suspected tumor, this can be dangerous to the patient, or impossible to perform if in a particularly sensitive area.
+Brain tumors are diagnosed first by a neurological exam, and then through imaging methods including MRI scans. Currently, images are analyzed by MRI technicians before being sent to the doctor for a final analysis. If necessary, a biopsy is done to confirm a diagnosis. A biopsy is a surgical procedure where a small sample of tissue is extracted. Depending on the location of the suspected tumor, this can be dangerous to the patient, or impossible to perform if it's in a particularly sensitive area.
 
 With advances in image classification techniques, preliminary analyses can be aided by computers through algorithms like those created in this project. This can reduce the need for potentially dangerous biopsies, allowing doctors and patients to focus on the next step, treatment. Doctors, patients, and MRI technicians stand to benefit from classification algorithms.
 
@@ -55,23 +55,24 @@ Thousands of MRI brain scans were used in this project. The scans were sourced f
 Included in these scans are brains with and without brain tumors present, of various section and scan types. The three types of sections included are frontal, medial, and horizontal. <br> ![Section Types](report/figures/mri_axis2_pd500px.jpg)
 (Technische Universität München, n.d.)
 
-Various scan types include Proton Density and Transverse Magnetization. Different types of scans are useful for detecting different types of tissue in different regions of the brain. Some tissue types are more visible under contrast material or propagate magnetization differently.
+Various scan types include Proton Density and Transverse Magnetization. Different types of scans are useful for detecting different types of tissue in different regions of the brain. Some types of brain tissue are more visible under contrast material and others propagate magnetization differently.
            Proton Density Scan            |  Transverse Magnetization (Type 2) Scan
 :----------------------------------------:|:----------------------------------------:
 ![Scan Type PD](report/figures/PD.gif)    | ![Scan Type T2](report/figures/T2.gif)
 
-In this project, a scan with a tumor was considered Class 0, and a scan with a tumor present was considered Class 1. As a result, recall score was the prioritized along with accuracy in this type of neural network, as the effects of false negative can be much more harmful than a false positive.
+In this project, a scan without a tumor was considered Class 0, and a scan with a tumor present was considered Class 1. As a result, recall score was the prioritized along with accuracy in this type of neural network, as the effects of false negative can be much more harmful than a false positive.
 
 
 ## Data Preparation
 
-After sourcing data, paths to the images were saved and used to split data into train, validation, and testing images. Using the paths, images were loaded using openCV and duplicates were removed with custom functions. The images were then resized and reshaped to work with the format of Convolutional Neural Network.
-To create a more robust model ImageDataGenerator was explored to create slightly altered images used in tandem with original images while training the model, however, after testing several models it proved to reduce the accuracy and recall of the model.
+After sourcing data, paths to the images were saved and used to split data into train, validation, and testing images. Using the paths, images were loaded using openCV and duplicates were removed with custom functions. The images were then resized and reshaped to work with the format of the employed Convolutional Neural Network.
+To create a more robust model ImageDataGenerator was explored to create slightly altered images used in tandem with original images while training the model, however, after testing several models it proved to reduce the accuracy and recall of the model and was not used in the final iteration.
+.
 
 
 ## Modeling
 
-A Convolutional Neural Network makes it possible to process images in the form of pixels as input and to predict the desired classification as output. The development of Convolutional Neural Network (CNN) layers trains a model for significant gains in the ability to classify images and detect objects in a picture. Multiple processing layers use image analysis filters, or convolutions as the model is trained.
+A Convolutional Neural Network makes it possible to process images as the input and predict the a classification as the output. The development of Convolutional Neural Network (CNN) layers trains a model for significant gains in the ability to classify images and detect objects in a picture. Multiple processing layers use image analysis filters, or convolutions as the model is trained.
 
 The convolutional layers help extract the spatial features in an image. The layers have a weight-sharing technique, which helps in reducing computation efforts.
 
@@ -79,9 +80,9 @@ A Convolution Neural Network (CNN) is built on three broad strategies:
 
   1) Learn features using Convolution layer
 
-  2) Reduce computational costs by down sample the image and reduce dimensionality using Max-Pooling(subsampling)
+  2) Reduce computational costs by down sample the image and reduce dimensionality using Max-Pooling (subsampling)
 
-  3) Fully connected layer to equip the network with classification capabilities
+  3) Use fully connected layer to equip the network with classification capabilities
 
 The performance of the model was evaluated with accuracy and recall scores. Accuracy is calculated by comparing the number correctly classified images (True Positives and True Negatives) to the total number of images. In contrast, recall compares scans correctly classified as having tumors (True Positives) to those misidentified as not having tumors (False Negatives). Given the dangers of misdiagnosing a patient with a tumor as being tumor-free, a high recall is desirable.
 
@@ -89,14 +90,14 @@ The original model incorporated a single convolutional layer and fully connected
 
 ![Initial Model Confusion Matrix](report/figures/confusion_matrix_fsm.png)
 
-While the initial model had good recall, there was plenty of room for improvement in accuracy, notice the number in the top right (False Positives) is greater than that in the top left (True Negatives). By adding additional epochs, the model showed improved in accuracy and recall, with a final accuracy and recall of 98% and 99%, respectively.
+While the initial model had a promising recall score, there was plenty of room for improvement in accuracy, notice the number in the top right (False Positives) is greater than that in the top left (True Negatives). By adding additional epochs, the model showed improved in accuracy and recall, with a final accuracy and recall of 98% and 99%, respectively.
 
 ![Final Model Confusion Matrix](report/figures/confusion_matrix_final.png)
 
 
 ## LIME Visualization
 
-To better understand how the model is classifying the images, I used LIME. LIME is an acronym for Local Interpretable Model-agnostic Explanations. The way LIME works is it breaks the image into several regions, called "superpixels", and the model classifies the image with the various superpixels turned on and off. Superpixels are then given weights based on their importance to the model's classification. Below is a scan of a patient with a tumor, located in top region of the brain. Using LIME, we see with the superpixel the model had given the most weight is picking up on the region containing the tumor, evidence the model is picking up on relevant regions when identifying the presence of tumors.
+To better understand how the model is classifying the images, I used LIME. LIME is an acronym for Local Interpretable Model-agnostic Explanations. The way LIME works is it breaks the image into several regions, called "superpixels", and the model classifies the image with the various superpixels turned on and off. Superpixels are then given "weights", a measure of importance for the model's classification. Below is a scan of a patient with a tumor, located in top region of the brain. Using LIME, we see with the superpixel with the highest weight is picking up on the region containing the tumor, evidence the model is identifying relevant regions when identifying the presence of tumors.
 
 ![LIME Visual](https://github.com/samjdedes/MRI_brain_scan_tumor_detection/blob/master/report/figures/LIME_True_Positive.png)
 
@@ -111,7 +112,7 @@ There is potential to create separate models based on the type of section (front
 # Appendix
 ## Repository Navigation
 
-Below visualizes the structure of this repository.
+Below visualizes the structure of the repository.
 
 ```
 MRI_brain_scan_tumor_detection
